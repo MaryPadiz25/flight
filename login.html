@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Log In — Skyline Flight School</title>
+<meta name="description" content="Log in to your Skyline Flight School student, instructor, or admin account.">
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="css/styles.css">
+<style>
+  .auth-wrap{ min-height:100vh; display:grid; grid-template-columns:1fr 1fr; }
+  .auth-visual{ background:radial-gradient(120% 140% at 15% 0%, var(--sky-deep-2) 0%, var(--sky-deep) 55%, #060F21 100%); color:#fff; padding:56px; display:flex; flex-direction:column; justify-content:space-between; }
+  .auth-form-side{ display:flex; align-items:center; justify-content:center; padding:40px; }
+  .auth-box{ width:100%; max-width:380px; }
+  .auth-box h1{ font-size:26px; color:var(--sky-deep); margin-bottom:6px; }
+  .auth-box p.sub{ color:var(--ink-soft); font-size:14.5px; margin-bottom:28px; }
+  .role-pick{ display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:24px; }
+  .role-pick button{ padding:10px 6px; border-radius:9px; border:1.5px solid var(--cloud); background:#fff; font-size:12.5px; font-weight:600; color:var(--ink-soft); }
+  .role-pick button.active{ border-color:var(--beacon); color:var(--beacon-deep); background:rgba(232,163,61,0.08); }
+  .demo-note{ font-size:12.5px; color:var(--ink-soft); background:var(--runway); border:1px dashed var(--cloud); padding:10px 12px; border-radius:9px; margin-top:18px; }
+  .auth-foot{ margin-top:20px; font-size:13.5px; color:var(--ink-soft); text-align:center; }
+  @media (max-width:860px){ .auth-visual{ display:none; } }
+</style>
+</head>
+<body>
+<div class="auth-wrap">
+  <div class="auth-visual">
+    <a class="brand" href="index.html"><svg viewBox="0 0 32 32" fill="none"><path d="M16 2 L18.5 13 L29 16 L18.5 17.5 L17 29 L15 17.5 L4.5 16 L15 13 Z" fill="#E8A33D"/></svg>Skyline</a>
+    <div>
+      <p class="eyebrow" style="color:var(--beacon);">Welcome back</p>
+      <h2 style="color:#fff; font-size:32px; margin:14px 0 12px;">One schedule. Every seat in the school.</h2>
+      <p style="color:rgba(255,255,255,0.65); max-width:380px;">Students, instructors and admin all see the same live availability — no more conflicting copies of the schedule.</p>
+    </div>
+    <p style="font-size:12.5px; color:rgba(255,255,255,0.4);">© 2026 Skyline Flight School</p>
+  </div>
+
+  <div class="auth-form-side">
+    <div class="auth-box">
+      <h1>Log in</h1>
+      <p class="sub">Choose your role, then continue with your account.</p>
+
+      <div class="role-pick" role="group" aria-label="Account type">
+        <button type="button" data-role="student" class="active">Student</button>
+        <button type="button" data-role="instructor">Instructor</button>
+        <button type="button" data-role="admin">Admin</button>
+      </div>
+
+      <form id="loginForm">
+        <div class="field"><label for="email">Email</label><input id="email" type="email" placeholder="you@example.com" required></div>
+        <div class="field"><label for="pw">Password</label><input id="pw" type="password" placeholder="••••••••" required></div>
+        <button class="btn btn-primary btn-block" type="submit">Continue</button>
+      </form>
+
+      <p class="demo-note">Demo mode: any email/password signs you in as the selected role using sample data — no live Firebase project connected yet.</p>
+      <p class="auth-foot">New student? <a href="signup.html" style="color:var(--beacon-deep); font-weight:600;">Create an account</a></p>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+  import { demoSignIn, DEMO_MODE } from './js/firebase-init.js';
+
+  let role = 'student';
+  document.querySelectorAll('.role-pick button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.role-pick button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      role = btn.dataset.role;
+    });
+  });
+
+  document.getElementById('loginForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    // TODO(firebase): replace with signInWithEmailAndPassword(auth, email, password)
+    // then read the users/{uid} doc to get `role` and redirect accordingly.
+    demoSignIn(role);
+    const dest = { student:'app/student.html', instructor:'app/instructor.html', admin:'app/admin.html' }[role];
+    window.location.href = dest;
+  });
+</script>
+</body>
+</html>

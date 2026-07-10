@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Skyline Flight School — Online Flight Lesson Booking &amp; Scheduling</title>
+<meta name="description" content="Book flight lessons online in minutes. Skyline Flight School's booking platform shows real-time aircraft and instructor availability, so you always know what's flying, when, and with whom.">
+<meta name="keywords" content="flight school booking, learn to fly, flight lesson scheduling, student pilot, flying lessons near me, aircraft booking system">
+<link rel="canonical" href="https://www.skylineflightschool.example/">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Skyline Flight School — Online Flight Lesson Booking">
+<meta property="og:description" content="Real-time aircraft and instructor availability. Book, reschedule, and track your flight training online — no more phone tag.">
+<meta property="og:url" content="https://www.skylineflightschool.example/">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="css/styles.css">
+<style>
+  /* ---- Hero ---- */
+  .hero{
+    background:radial-gradient(120% 140% at 15% 0%, var(--sky-deep-2) 0%, var(--sky-deep) 55%, #060F21 100%);
+    color:#fff; padding:76px 0 0; overflow:hidden; position:relative;
+  }
+  .hero .wrap{ display:grid; grid-template-columns:1fr 460px; gap:48px; align-items:center; padding-bottom:64px; }
+  .hero h1{ font-size:clamp(34px,4.6vw,54px); font-weight:700; margin:18px 0 20px; }
+  .hero h1 em{ font-style:normal; color:var(--beacon); }
+  .hero p.lead{ font-size:18px; color:rgba(255,255,255,0.78); max-width:520px; margin-bottom:32px; }
+  .hero-cta{ display:flex; gap:14px; flex-wrap:wrap; margin-bottom:44px; }
+  .hero-stats{ display:flex; gap:36px; padding-top:28px; border-top:1px solid rgba(255,255,255,0.12); }
+  .hero-stats div strong{ display:block; font-family:var(--font-display); font-size:24px; color:#fff; }
+  .hero-stats div span{ font-size:13px; color:rgba(255,255,255,0.55); }
+
+  /* Attitude indicator (signature element) */
+  .horizon-wrap{ position:relative; width:100%; aspect-ratio:1/1; max-width:440px; justify-self:center; }
+  .horizon-ring{ filter:drop-shadow(0 20px 50px rgba(0,0,0,0.45)); }
+  .horizon-sky{ animation:tilt 9s ease-in-out infinite; transform-origin:200px 200px; }
+  @keyframes tilt{ 0%,100%{ transform:rotate(-6deg) translateY(0); } 50%{ transform:rotate(5deg) translateY(-6px); } }
+  .horizon-tick{ animation:none; }
+
+  .strip-belt{ background:var(--sky-deep-2); border-top:1px solid rgba(255,255,255,0.08); padding:18px 0; }
+  .strip-belt .wrap{ display:flex; gap:0; overflow:hidden; }
+  .strip-track{ display:flex; gap:28px; animation:scroll-strip 26s linear infinite; white-space:nowrap; }
+  .strip-track span{ font-family:var(--font-mono); font-size:12.5px; color:rgba(255,255,255,0.5); letter-spacing:0.06em; }
+  @keyframes scroll-strip{ from{ transform:translateX(0);} to{ transform:translateX(-50%);} }
+
+  /* ---- Problem / flight-strip cards ---- */
+  .strip-card{
+    background:var(--runway-card); border:1px solid var(--cloud); border-left:4px solid var(--beacon);
+    border-radius:var(--radius-md); padding:26px 24px; box-shadow:var(--shadow-sm);
+  }
+  .strip-card h3{ font-size:17px; margin:12px 0 8px; }
+  .strip-card p{ color:var(--ink-soft); font-size:14.5px; }
+  .grid-3{ display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+  .grid-2{ display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+  @media (max-width:860px){ .grid-3,.grid-2{ grid-template-columns:1fr; } .hero .wrap{ grid-template-columns:1fr; } .horizon-wrap{ max-width:280px; } }
+
+  .section-head{ max-width:620px; margin-bottom:48px; }
+  .section-head h2{ font-size:clamp(26px,3.4vw,36px); margin:12px 0 14px; color:var(--sky-deep); }
+  .section-head p{ color:var(--ink-soft); font-size:16px; }
+
+  .section-alt{ background:var(--sky-deep); color:#fff; }
+  .section-alt .section-head h2{ color:#fff; }
+  .section-alt .section-head p{ color:rgba(255,255,255,0.65); }
+
+  /* Role tabs */
+  .role-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+  .role-card{ padding:30px 26px; }
+  .role-card .icon-badge{ width:46px; height:46px; border-radius:12px; display:flex; align-items:center; justify-content:center; background:rgba(232,163,61,0.12); margin-bottom:18px; }
+  .role-card h3{ font-size:19px; margin-bottom:10px; }
+  .role-card ul{ margin:14px 0 0; padding:0; list-style:none; }
+  .role-card li{ font-size:14px; color:var(--ink-soft); padding:6px 0 6px 22px; position:relative; }
+  .role-card li::before{ content:'✓'; position:absolute; left:0; color:var(--confirmed); font-weight:700; }
+  @media (max-width:860px){ .role-grid{ grid-template-columns:1fr; } }
+
+  /* Fleet */
+  .fleet-card{ padding:20px; display:flex; flex-direction:column; gap:12px; }
+  .fleet-top{ display:flex; justify-content:space-between; align-items:flex-start; }
+  .fleet-reg{ font-family:var(--font-mono); font-size:20px; font-weight:600; color:var(--sky-deep); }
+  .fleet-type{ font-size:13.5px; color:var(--ink-soft); }
+  .fleet-plane{ width:100%; height:90px; }
+
+  /* Steps timeline */
+  .steps{ display:grid; grid-template-columns:repeat(4,1fr); gap:20px; counter-reset:step; }
+  .step{ position:relative; padding-top:44px; }
+  .step::before{ counter-increment:step; content:counter(step,decimal-leading-zero); font-family:var(--font-mono); font-size:13px; color:var(--beacon); position:absolute; top:0; left:0; }
+  .step::after{ content:''; position:absolute; top:6px; left:34px; right:-20px; height:1px; background:var(--cloud); }
+  .steps .step:last-child::after{ display:none; }
+  .step h4{ font-size:15.5px; margin-bottom:6px; }
+  .step p{ font-size:13.5px; color:var(--ink-soft); }
+  @media (max-width:860px){ .steps{ grid-template-columns:1fr 1fr; } }
+
+  /* Testimonials */
+  .quote-card{ padding:26px; }
+  .quote-card p{ font-size:15px; color:var(--ink); margin-bottom:16px; }
+  .quote-who{ display:flex; align-items:center; gap:10px; }
+  .avatar{ width:38px; height:38px; border-radius:50%; }
+  .quote-who strong{ font-size:13.5px; display:block; }
+  .quote-who span{ font-size:12.5px; color:var(--ink-soft); }
+
+  .cta-band{ background:linear-gradient(120deg,var(--sky-deep),var(--sky-deep-2)); color:#fff; border-radius:24px; padding:56px; display:flex; justify-content:space-between; align-items:center; gap:24px; flex-wrap:wrap; }
+  .cta-band h2{ font-size:28px; margin-bottom:8px; }
+  .cta-band p{ color:rgba(255,255,255,0.7); }
+</style>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FlightSchool",
+  "name": "Skyline Flight School",
+  "description": "Flight training school offering online lesson booking, private pilot licence and recreational pilot training.",
+  "url": "https://www.skylineflightschool.example/",
+  "telephone": "+1-555-0142",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Your City",
+    "addressCountry": "US"
+  },
+  "priceRange": "$$"
+}
+</script>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap">
+    <a class="brand" href="index.html">
+      <svg viewBox="0 0 32 32" fill="none"><path d="M16 2 L18.5 13 L29 16 L18.5 17.5 L17 29 L15 17.5 L4.5 16 L15 13 Z" fill="#E8A33D"/></svg>
+      Skyline
+    </a>
+    <div class="nav-links">
+      <a href="#how-it-works">How it works</a>
+      <a href="#roles">For your role</a>
+      <a href="#fleet">Our fleet</a>
+      <a href="#faq">FAQ</a>
+    </div>
+    <div class="nav-cta">
+      <a class="btn btn-outline btn-sm" href="login.html">Log in</a>
+      <a class="btn btn-primary btn-sm" href="signup.html">Book a flight</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <p class="eyebrow">Booking &amp; scheduling, built for flight training</p>
+      <h1>Know exactly who's flying, <em>when</em>, and in which aircraft.</h1>
+      <p class="lead">Skyline replaces the whiteboard, the spreadsheet, and the phone tag. Students book real lesson slots, instructors manage their day, and admins run the whole operation from one live schedule.</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="signup.html">Create a student account</a>
+        <a class="btn btn-outline" href="login.html">Instructor / admin login</a>
+      </div>
+      <div class="hero-stats">
+        <div><strong>0</strong><span>Double bookings since launch</span></div>
+        <div><strong>24/7</strong><span>Online booking access</span></div>
+        <div><strong>&lt;2min</strong><span>To confirm a lesson</span></div>
+      </div>
+    </div>
+
+    <div class="horizon-wrap" aria-hidden="true">
+      <svg viewBox="0 0 400 400" class="horizon-ring">
+        <title>Artificial horizon instrument, representing precision and reliability</title>
+        <circle cx="200" cy="200" r="188" fill="#0A1730" stroke="#2A3E63" stroke-width="10"/>
+        <clipPath id="horizonClip"><circle cx="200" cy="200" r="176"/></clipPath>
+        <g clip-path="url(#horizonClip)">
+          <g class="horizon-sky">
+            <rect x="-100" y="-200" width="600" height="400" fill="#3A6FC4"/>
+            <rect x="-100" y="200" width="600" height="400" fill="#4A3221"/>
+            <rect x="-100" y="196" width="600" height="8" fill="#EDEDED"/>
+            <g stroke="#EDEDED" stroke-width="3" opacity="0.85">
+              <line x1="120" y1="150" x2="280" y2="150"/>
+              <line x1="150" y1="110" x2="250" y2="110"/>
+              <line x1="120" y1="250" x2="280" y2="250"/>
+              <line x1="150" y1="290" x2="250" y2="290"/>
+            </g>
+          </g>
+        </g>
+        <g stroke="#E8A33D" stroke-width="4">
+          <line x1="120" y1="200" x2="170" y2="200"/>
+          <line x1="230" y1="200" x2="280" y2="200"/>
+          <polygon points="200,190 190,210 210,210" fill="#E8A33D" stroke="none"/>
+        </g>
+        <circle cx="200" cy="200" r="188" fill="none" stroke="#0B1D3A" stroke-width="26"/>
+        <g fill="#F4F6F8" font-family="IBM Plex Mono" font-size="12">
+          <text x="200" y="26" text-anchor="middle">0</text>
+          <text x="330" y="205" text-anchor="middle">9</text>
+          <text x="70" y="205" text-anchor="middle">27</text>
+        </g>
+      </svg>
+    </div>
+  </div>
+
+  <div class="strip-belt">
+    <div class="wrap">
+      <div class="strip-track">
+        <span>0730 · N172SK · CESSNA 172 · CONFIRMED</span>
+        <span>0900 · N44DT · DA40 · REQUESTED</span>
+        <span>1030 · N172SK · CESSNA 172 · COMPLETED</span>
+        <span>1200 · N88PA · PA-28 · WEATHER CANCELLED</span>
+        <span>1330 · N44DT · DA40 · CONFIRMED</span>
+        <span>0730 · N172SK · CESSNA 172 · CONFIRMED</span>
+        <span>0900 · N44DT · DA40 · REQUESTED</span>
+        <span>1030 · N172SK · CESSNA 172 · COMPLETED</span>
+        <span>1200 · N88PA · PA-28 · WEATHER CANCELLED</span>
+        <span>1330 · N44DT · DA40 · CONFIRMED</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- PROBLEM / SOLUTION -->
+<section id="how-it-works">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Why schools switch</p>
+      <h2>The whiteboard doesn't scale. Your bookings shouldn't live in three places.</h2>
+      <p>One live schedule, visible to students, instructors and admin at once — no more double-booked aircraft or missed lesson reminders.</p>
+    </div>
+    <div class="grid-3">
+      <div class="strip-card">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#0B1D3A" stroke-width="1.8"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>
+        <h3>Daily operations view</h3>
+        <p>Every lesson for today — time, aircraft, instructor, student and status — on one screen your ops desk can scan in seconds.</p>
+      </div>
+      <div class="strip-card">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#0B1D3A" stroke-width="1.8"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 10h18M8 2v4M16 2v4"/><path d="M7 14h3M14 14h3M7 17h3"/></svg>
+        <h3>Weekly planning view</h3>
+        <p>Filter by aircraft, instructor or student to spot gaps, balance workload, and lift aircraft utilisation.</p>
+      </div>
+      <div class="strip-card">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#0B1D3A" stroke-width="1.8"><path d="M12 2 3 7v6c0 5 4 8 9 9 5-1 9-4 9-9V7l-9-5Z"/><path d="M9 12l2 2 4-4"/></svg>
+        <h3>Zero double-bookings</h3>
+        <p>Aircraft and instructor availability is checked automatically the moment a booking is requested.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ROLES -->
+<section id="roles" style="background:var(--runway-card); border-top:1px solid var(--cloud); border-bottom:1px solid var(--cloud);">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Built for three roles</p>
+      <h2>One platform, tuned to what each person actually needs to do.</h2>
+    </div>
+    <div class="role-grid">
+      <div class="card role-card">
+        <div class="icon-badge"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C97F1E" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg></div>
+        <h3>Students</h3>
+        <p style="color:var(--ink-soft); font-size:14px;">Book and manage your own training, start to finish.</p>
+        <ul>
+          <li>See real-time aircraft &amp; instructor availability</li>
+          <li>Book, cancel or request a reschedule</li>
+          <li>Review lesson history &amp; instructor notes</li>
+          <li>Track your account balance</li>
+        </ul>
+      </div>
+      <div class="card role-card">
+        <div class="icon-badge"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C97F1E" stroke-width="2"><path d="M3 12h4l3-9 4 18 3-9h4"/></svg></div>
+        <h3>Instructors</h3>
+        <p style="color:var(--ink-soft); font-size:14px;">Walk into every lesson already briefed.</p>
+        <ul>
+          <li>View your daily schedule &amp; assigned students</li>
+          <li>Log lesson notes &amp; mark lessons complete</li>
+          <li>Record aircraft used, duration &amp; training covered</li>
+          <li>Track each student's progress over time</li>
+        </ul>
+      </div>
+      <div class="card role-card">
+        <div class="icon-badge"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C97F1E" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></div>
+        <h3>Administrators</h3>
+        <p style="color:var(--ink-soft); font-size:14px;">Run the whole school from one dashboard.</p>
+        <ul>
+          <li>Manage aircraft, instructors &amp; student accounts</li>
+          <li>Approve, modify or override any booking</li>
+          <li>Block aircraft for maintenance</li>
+          <li>See utilisation, workload &amp; revenue at a glance</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FLEET -->
+<section id="fleet">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Live fleet status</p>
+      <h2>Aircraft availability, always current.</h2>
+      <p>Every airframe's status updates the moment admin logs a maintenance block — students only ever see what they can actually book.</p>
+    </div>
+    <div class="grid-3" id="fleet-preview"><!-- filled by js/fleet-preview.js --></div>
+  </div>
+</section>
+
+<!-- STEPS -->
+<section class="section-alt">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow" style="color:var(--beacon);">From sign-up to solo</p>
+      <h2>Booking your first lesson takes four steps.</h2>
+    </div>
+    <div class="steps">
+      <div class="step"><h4 style="color:#fff;">Create your account</h4><p style="color:rgba(255,255,255,0.6);">Sign up as a student in under a minute — no paperwork required to browse availability.</p></div>
+      <div class="step"><h4 style="color:#fff;">Pick a slot</h4><p style="color:rgba(255,255,255,0.6);">Browse open instructor and aircraft times on the weekly calendar.</p></div>
+      <div class="step"><h4 style="color:#fff;">Get confirmed</h4><p style="color:rgba(255,255,255,0.6);">Your request is checked against live availability and confirmed — or the school proposes an alternative.</p></div>
+      <div class="step"><h4 style="color:#fff;">Fly &amp; track progress</h4><p style="color:rgba(255,255,255,0.6);">After the lesson, your instructor's notes and flight details land straight in your history.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">From the flight line</p>
+      <h2>What students and instructors say.</h2>
+    </div>
+    <div class="grid-3">
+      <div class="card quote-card">
+        <p>"I book my next lesson from the parking lot after my current one. I've never had to call the office."</p>
+        <div class="quote-who"><svg class="avatar" viewBox="0 0 40 40"><circle cx="20" cy="20" r="20" fill="#E4E9F0"/><circle cx="20" cy="16" r="7" fill="#4C6FE0"/><path d="M6 36c1-8 8-12 14-12s13 4 14 12" fill="#4C6FE0"/></svg><div><strong>Maya R.</strong><span>Private Pilot student</span></div></div>
+      </div>
+      <div class="card quote-card">
+        <p>"My whole day is on one screen before I've had coffee. I know exactly which students and aircraft I've got."</p>
+        <div class="quote-who"><svg class="avatar" viewBox="0 0 40 40"><circle cx="20" cy="20" r="20" fill="#E4E9F0"/><circle cx="20" cy="16" r="7" fill="#2E8B74"/><path d="M6 36c1-8 8-12 14-12s13 4 14 12" fill="#2E8B74"/></svg><div><strong>Daniel O.</strong><span>Chief Flight Instructor</span></div></div>
+      </div>
+      <div class="card quote-card">
+        <p>"We used to lose an aircraft-hour a day to scheduling clashes. That's basically gone."</p>
+        <div class="quote-who"><svg class="avatar" viewBox="0 0 40 40"><circle cx="20" cy="20" r="20" fill="#E4E9F0"/><circle cx="20" cy="16" r="7" fill="#E8A33D"/><path d="M6 36c1-8 8-12 14-12s13 4 14 12" fill="#E8A33D"/></svg><div><strong>Priya S.</strong><span>Operations Manager</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" style="background:var(--runway-card); border-top:1px solid var(--cloud);">
+  <div class="wrap">
+    <div class="section-head"><p class="eyebrow">Good to know</p><h2>Frequently asked questions</h2></div>
+    <div class="grid-2">
+      <div class="strip-card" style="border-left-color:var(--requested);"><h3>Do I need a licence to book a lesson?</h3><p>No — anyone can create a student account and book a discovery flight with no prior experience.</p></div>
+      <div class="strip-card" style="border-left-color:var(--requested);"><h3>Can I cancel or reschedule online?</h3><p>Yes. Cancellations and reschedule requests are submitted through your dashboard and routed to your instructor and admin automatically.</p></div>
+      <div class="strip-card" style="border-left-color:var(--requested);"><h3>How is bad weather handled?</h3><p>Admin can mark a lesson "weather cancelled" directly, which notifies you and frees the aircraft and instructor for other bookings.</p></div>
+      <div class="strip-card" style="border-left-color:var(--requested);"><h3>How do I pay for lessons?</h3><p>Payments and outstanding balances are tracked in your account; online payment is available directly through the platform.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section>
+  <div class="wrap">
+    <div class="cta-band">
+      <div>
+        <h2>Ready to see your first available slot?</h2>
+        <p>Create a free student account — no cost until you book.</p>
+      </div>
+      <a class="btn btn-primary" href="signup.html">Create a student account</a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="wrap">
+    <div>
+      <a class="brand" href="index.html" style="margin-bottom:14px;">
+        <svg viewBox="0 0 32 32" fill="none"><path d="M16 2 L18.5 13 L29 16 L18.5 17.5 L17 29 L15 17.5 L4.5 16 L15 13 Z" fill="#E8A33D"/></svg>
+        Skyline
+      </a>
+      <p style="max-width:260px; font-size:13.5px;">Online booking &amp; scheduling for flight schools. Built to replace the whiteboard.</p>
+    </div>
+    <div><h4>Platform</h4><a href="#how-it-works">How it works</a><a href="#roles">For your role</a><a href="#fleet">Fleet</a></div>
+    <div><h4>Account</h4><a href="signup.html">Student sign up</a><a href="login.html">Log in</a></div>
+    <div><h4>School</h4><a href="#faq">FAQ</a><a href="tel:+15550142">Call the office</a></div>
+  </div>
+  <div class="wrap footer-bottom">
+    <span>© 2026 Skyline Flight School. All rights reserved.</span>
+    <span>Booking platform — Phase 1 (MVP)</span>
+  </div>
+</footer>
+
+<script src="js/fleet-preview.js" type="module"></script>
+</body>
+</html>
