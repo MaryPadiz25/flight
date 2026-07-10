@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Bookings — Skyline Flight School</title>
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="../css/styles.css">
+<link rel="stylesheet" href="../css/app.css">
+</head>
+<body class="app">
+<div class="app-shell" id="app-shell-root"></div>
+
+<template id="tpl-main">
+  <div class="app-top">
+    <div>
+      <h1>Welcome back, <span id="studentName">Student</span></h1>
+      <p>Here's what's coming up in your training.</p>
+    </div>
+    <button class="btn btn-primary" id="openBookBtn">+ Book a lesson</button>
+  </div>
+
+  <div class="kpi-row">
+    <div class="card kpi"><span>Upcoming lessons</span><strong id="kpiUpcoming">–</strong></div>
+    <div class="card kpi"><span>Hours logged</span><strong id="kpiHours">–</strong></div>
+    <div class="card kpi"><span>Training goal</span><strong style="font-size:16px;">Private Pilot</strong></div>
+    <div class="card kpi"><span>Account balance</span><strong id="kpiBalance">–</strong><small>Positive = credit on file</small></div>
+  </div>
+
+  <div class="panel" id="upcoming">
+    <div class="panel-head"><h2>Upcoming bookings</h2></div>
+    <div id="upcomingList"></div>
+  </div>
+
+  <div class="panel" id="account">
+    <div class="panel-head"><h2>Account &amp; balance</h2></div>
+    <div id="accountBlock"></div>
+  </div>
+
+  <div class="panel" id="history">
+    <div class="panel-head"><h2>Lesson history &amp; instructor notes</h2></div>
+    <table class="data-table">
+      <thead><tr><th>Date</th><th>Lesson</th><th>Instructor</th><th>Aircraft</th><th>Instructor notes</th></tr></thead>
+      <tbody id="historyBody"></tbody>
+    </table>
+  </div>
+</template>
+
+<!-- Book a lesson modal -->
+<div class="modal-backdrop" id="bookModal">
+  <div class="modal">
+    <div class="modal-head"><h3>Book a lesson</h3><button class="modal-close" id="closeBook">&times;</button></div>
+    <form id="bookForm">
+      <div class="field-row">
+        <div class="field"><label>Date</label><input type="date" id="f-date" required min="2026-07-10"></div>
+        <div class="field"><label>Start time</label><input type="time" id="f-start" required value="09:00"></div>
+      </div>
+      <div class="field"><label>Lesson type</label>
+        <select id="f-lesson">
+          <option>Discovery Flight</option>
+          <option>Circuits & Landings</option>
+          <option>Navigation</option>
+          <option>Instrument Approach</option>
+          <option>Cross-Country Prep</option>
+          <option>Pre-Solo Review</option>
+        </select>
+      </div>
+      <div class="field-row">
+        <div class="field"><label>Instructor</label><select id="f-instructor"></select></div>
+        <div class="field"><label>Aircraft</label><select id="f-aircraft"></select></div>
+      </div>
+      <button class="btn btn-primary btn-block" type="submit">Request booking</button>
+      <p style="font-size:12.5px; color:var(--ink-soft); margin-top:10px;">Your request is checked against live availability. You'll be notified once it's confirmed.</p>
+    </form>
+  </div>
+</div>
+
+<script type="module" src="../js/student-app.js"></script>
+</body>
+</html>

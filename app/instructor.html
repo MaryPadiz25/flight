@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Schedule — Skyline Flight School</title>
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="../css/styles.css">
+<link rel="stylesheet" href="../css/app.css">
+</head>
+<body class="app">
+<div class="app-shell" id="app-shell-root"></div>
+
+<template id="tpl-main">
+  <div class="app-top">
+    <div><h1>Today's schedule</h1><p id="dateLabel">–</p></div>
+  </div>
+
+  <div class="kpi-row">
+    <div class="card kpi"><span>Lessons today</span><strong id="kpiToday">–</strong></div>
+    <div class="card kpi"><span>Students this week</span><strong id="kpiStudents">–</strong></div>
+    <div class="card kpi"><span>Flight hours this week</span><strong id="kpiHours">–</strong></div>
+    <div class="card kpi"><span>Completed today</span><strong id="kpiDone">–</strong></div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-head"><h2>Today's flight strips</h2></div>
+    <div id="scheduleList"></div>
+  </div>
+
+  <div class="panel" id="students">
+    <div class="panel-head"><h2>My students</h2></div>
+    <table class="data-table">
+      <thead><tr><th>Student</th><th>Goal</th><th>Lessons flown</th><th>Last lesson</th></tr></thead>
+      <tbody id="studentsBody"></tbody>
+    </table>
+  </div>
+</template>
+
+<div class="modal-backdrop" id="notesModal">
+  <div class="modal">
+    <div class="modal-head"><h3>Log lesson &amp; mark complete</h3><button class="modal-close" id="closeNotes">&times;</button></div>
+    <form id="notesForm">
+      <input type="hidden" id="n-id">
+      <div class="field"><label>Aircraft used</label><input id="n-aircraft" disabled></div>
+      <div class="field"><label>Flight duration (hours)</label><input id="n-duration" type="number" step="0.1" min="0.1" required value="1.2"></div>
+      <div class="field"><label>Training completed</label><input id="n-training" placeholder="e.g. Steep turns, stalls, pattern work" required></div>
+      <div class="field"><label>Lesson notes for student</label><textarea id="n-notes" rows="4" placeholder="Progress, focus areas for next lesson…"></textarea></div>
+      <button class="btn btn-primary btn-block" type="submit">Mark lesson completed</button>
+    </form>
+  </div>
+</div>
+
+<script type="module" src="../js/instructor-app.js"></script>
+</body>
+</html>
