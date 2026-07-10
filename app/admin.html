@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard — Skyline Flight School</title>
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="../css/styles.css">
+<link rel="stylesheet" href="../css/app.css">
+</head>
+<body class="app">
+<div class="app-shell" id="app-shell-root"></div>
+
+<template id="tpl-main">
+  <div class="app-top">
+    <div><h1>Operations dashboard</h1><p>Everything flying, everyone flying it — in one place.</p></div>
+  </div>
+
+  <div class="kpi-row">
+    <div class="card kpi"><span>Today's flights</span><strong id="kpiFlights">–</strong></div>
+    <div class="card kpi"><span>Aircraft utilisation</span><strong id="kpiUtil">–</strong><small>this week</small></div>
+    <div class="card kpi"><span>Active students</span><strong id="kpiStudents">–</strong></div>
+    <div class="card kpi"><span>Revenue (30d)</span><strong id="kpiRevenue">–</strong></div>
+  </div>
+
+  <!-- DAILY CALENDAR -->
+  <div class="panel" id="daily">
+    <div class="panel-head">
+      <h2>Daily calendar</h2>
+      <div class="cal-toolbar">
+        <div class="cal-nav">
+          <button id="dayPrev" aria-label="Previous day">&larr;</button>
+          <span class="cal-label" id="dayLabel">–</span>
+          <button id="dayNext" aria-label="Next day">&rarr;</button>
+        </div>
+      </div>
+    </div>
+    <div id="dailyList"></div>
+  </div>
+
+  <!-- WEEKLY CALENDAR -->
+  <div class="panel" id="weekly">
+    <div class="panel-head">
+      <h2>Weekly calendar</h2>
+      <div class="cal-toolbar">
+        <select id="filterAircraft"><option value="">All aircraft</option></select>
+        <select id="filterInstructor"><option value="">All instructors</option></select>
+        <div class="cal-nav">
+          <button id="weekPrev" aria-label="Previous week">&larr;</button>
+          <span class="cal-label" id="weekLabel">–</span>
+          <button id="weekNext" aria-label="Next week">&rarr;</button>
+        </div>
+      </div>
+    </div>
+    <div id="weeklyGrid" style="overflow-x:auto;"></div>
+  </div>
+
+  <!-- AIRCRAFT -->
+  <div class="panel" id="aircraft">
+    <div class="panel-head"><h2>Aircraft</h2><button class="btn btn-sm btn-dark" id="addAircraftBtn">+ Add aircraft</button></div>
+    <table class="data-table">
+      <thead><tr><th>Registration</th><th>Type</th><th>Rate</th><th>Status</th><th></th></tr></thead>
+      <tbody id="aircraftBody"></tbody>
+    </table>
+  </div>
+
+  <!-- INSTRUCTORS -->
+  <div class="panel" id="instructors">
+    <div class="panel-head"><h2>Instructors</h2><button class="btn btn-sm btn-dark" id="addInstructorBtn">+ Add instructor</button></div>
+    <table class="data-table">
+      <thead><tr><th>Name</th><th>Rating</th><th>Lessons this week</th></tr></thead>
+      <tbody id="instructorsBody"></tbody>
+    </table>
+  </div>
+
+  <!-- STUDENTS -->
+  <div class="panel" id="students">
+    <div class="panel-head"><h2>Students</h2></div>
+    <table class="data-table">
+      <thead><tr><th>Name</th><th>Contact</th><th>Goal</th><th>Balance</th></tr></thead>
+      <tbody id="studentsBody"></tbody>
+    </table>
+  </div>
+
+  <!-- REPORTS -->
+  <div class="panel" id="reports">
+    <div class="panel-head"><h2>Reports snapshot</h2></div>
+    <div class="grid-3" style="display:grid; grid-template-columns:repeat(3,1fr); gap:16px;">
+      <div class="card" style="padding:18px;"><h3 style="font-size:14px; margin-bottom:10px;">Bookings by status (this week)</h3><div id="reportStatus" style="font-size:13.5px; color:var(--ink-soft);"></div></div>
+      <div class="card" style="padding:18px;"><h3 style="font-size:14px; margin-bottom:10px;">Instructor workload (this week)</h3><div id="reportWorkload" style="font-size:13.5px; color:var(--ink-soft);"></div></div>
+      <div class="card" style="padding:18px;"><h3 style="font-size:14px; margin-bottom:10px;">Aircraft utilisation (this week)</h3><div id="reportUtil" style="font-size:13.5px; color:var(--ink-soft);"></div></div>
+    </div>
+  </div>
+</template>
+
+<!-- Aircraft modal -->
+<div class="modal-backdrop" id="aircraftModal">
+  <div class="modal">
+    <div class="modal-head"><h3 id="aircraftModalTitle">Add aircraft</h3><button class="modal-close" data-close="aircraftModal">&times;</button></div>
+    <form id="aircraftForm">
+      <input type="hidden" id="ac-id">
+      <div class="field-row">
+        <div class="field"><label>Registration</label><input id="ac-reg" required placeholder="N123AB"></div>
+        <div class="field"><label>Type</label><input id="ac-type" required placeholder="Cessna 172"></div>
+      </div>
+      <div class="field-row">
+        <div class="field"><label>Hourly rate ($)</label><input id="ac-rate" type="number" required value="185"></div>
+        <div class="field"><label>Status</label>
+          <select id="ac-status">
+            <option value="available">Available</option>
+            <option value="maintenance">Maintenance</option>
+            <option value="unavailable">Unavailable</option>
+          </select>
+        </div>
+      </div>
+      <button class="btn btn-primary btn-block" type="submit">Save aircraft</button>
+    </form>
+  </div>
+</div>
+
+<!-- Instructor modal -->
+<div class="modal-backdrop" id="instructorModal">
+  <div class="modal">
+    <div class="modal-head"><h3>Add instructor</h3><button class="modal-close" data-close="instructorModal">&times;</button></div>
+    <form id="instructorForm">
+      <div class="field"><label>Name</label><input id="in-name" required></div>
+      <div class="field"><label>Rating / certificates</label><input id="in-rating" required placeholder="CFI, CFII"></div>
+      <button class="btn btn-primary btn-block" type="submit">Save instructor</button>
+    </form>
+  </div>
+</div>
+
+<script type="module" src="../js/admin-app.js"></script>
+</body>
+</html>
